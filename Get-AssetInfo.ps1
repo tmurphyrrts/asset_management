@@ -1,7 +1,7 @@
 Import-Module SnipeitPS
 
-$apikey = Get-Content -Path C:\Windows\Temp\snipeitapikey.txt
-$url = Get-Content -Path C:\Windows\Temp\snipeiturl.txt
+$apikey = Get-Content -Path C:\ProgramData\Snipe-IT\snipeitapikey.txt
+$url = Get-Content -Path C:\ProgramData\Snipe-IT\snipeiturl.txt
 
 $serialNumber = (Get-WmiObject -Class win32_bios).SerialNumber #Get machine serial number
 $computerName = $env:COMPUTERNAME #Get computer name
