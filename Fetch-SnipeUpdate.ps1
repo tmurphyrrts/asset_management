@@ -34,13 +34,13 @@ $logtxt = ($timestamp + ":  Extracted scripts from $downloadPath to $tempFolderP
 Add-Content -path $logPath -value $logtxt
 
 #Remove current script
-$scriptPath = "C:\ProgramData\Snipe-IT\Get-AssetInfo.ps1"
-Remove-Item -Path $scriptPath
+$scriptPath = "C:\ProgramData\Snipe-IT\*.ps1"
+Get-ChildItem -Path $scriptPath -Recurse | Remove-Item
 $logtxt = ($timestamp + ":  Deleted script from $scriptPath")
 Add-Content -path $logPath -value $logtxt
 
 #Move newly-downloaded script to proper location
-$newScriptPath = "C:\Windows\Temp\Snipe-IT\asset_management-master\Get-AssetInfo.ps1"
-Move-Item -Path $newScriptPath -Destination $snipeRootPath
-$logtxt = ($timestamp + ":  Moved new script from $newScriptPath to $scriptPath")
+$newScriptPath = "C:\Windows\Temp\Snipe-IT\asset_management-master\*.ps1"
+Get-ChildItem -Path $newScriptPath -Recurse | Move-Item -Destination $snipeRootPath
+$logtxt = ($timestamp + ":  Moved new scripts from $newScriptPath to $scriptPath")
 Add-Content -path $logPath -value $logtxt
