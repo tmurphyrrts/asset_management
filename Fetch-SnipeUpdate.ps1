@@ -33,14 +33,15 @@ Expand-Archive -Path $downloadPath -DestinationPath $tempFolderPath
 $logtxt = ($timestamp + ":  Extracted scripts from $downloadPath to $tempFolderPath")
 Add-Content -path $logPath -value $logtxt
 
-#Remove current script
+#Remove current scripts
 $scriptPath = "C:\ProgramData\Snipe-IT\*.ps1"
 Get-ChildItem -Path $scriptPath -Recurse | Remove-Item
 $logtxt = ($timestamp + ":  Deleted script from $scriptPath")
 Add-Content -path $logPath -value $logtxt
 
-#Move newly-downloaded script to proper location
+#Move newly-downloaded scripts to proper location
 $newScriptPath = "C:\Windows\Temp\Snipe-IT\asset_management-master\*.ps1"
+$snipeRootPath = "C:\ProgramData\Snipe-IT"
 Get-ChildItem -Path $newScriptPath -Recurse | Move-Item -Destination $snipeRootPath
 $logtxt = ($timestamp + ":  Moved new scripts from $newScriptPath to $scriptPath")
 Add-Content -path $logPath -value $logtxt
