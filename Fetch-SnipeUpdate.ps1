@@ -10,45 +10,37 @@ if (Test-Path $tempFolderPath) {
     Remove-Item $tempFolderPath -Recurse
 }
 
+#Log Information
+$timestamp = Get-Date -UFormat "%m/%d/%Y %R"
+$logPath = "C:\ProgramData\Snipe-IT\ScriptUpdate.log"
+
 #Download current scripts from GitHub repo
 $webClient = New-Object System.Net.WebClient
 $url = 'https://github.com/tmurphyrrts/asset_management/archive/master.zip'
 $downloadPath = "C:\Windows\Temp\Snipe-IT.zip"
 $webClient.DownloadFile($url,$downloadPath)
+$logtxt = ($timestamp + ":  Downloaded latest script from $url to $downloadPath")
+if (!(Test-Path $logPath)) {
+    New-Item -path $logPath
+    Add-Content -path $logPath -value $logtxt
+} 
+else {
+    Add-Content -path $logPath -value $logtxt
+}
 
 #Extract newly-downloaded archive
 Expand-Archive -Path $downloadPath -DestinationPath $tempFolderPath
+$logtxt = ($timestamp + ":  Extracted scripts from $downloadPath to $tempFolderPath")
+Add-Content -path $logPath -value $logtxt
 
-#Log Information
-$timestamp = Get-Date -UFormat "%m/%d/%Y %R"
-$logPath = "C:\ProgramData\Snipe-IT\ScriptUpdate.log"
+#Remove current script
+$scriptPath = "C:\ProgramData\Snipe-IT\Get-AssetInfo.ps1"
+Remove-Item -Path $scriptPath
+$logtxt = ($timestamp + ":  Deleted script from $scriptPath")
+Add-Content -path $logPath -value $logtxt
 
-#Compare hashes of existing script and newly-downloaded script
-$currentScriptPath = "C:\ProgramData\Snipe-IT\Get-AssetInfo.ps1"
-$currentScriptHash = (Get-FileHash -Path $currentScriptPath).Hash
+#Move newly-downloaded script to proper location
 $newScriptPath = "C:\Windows\Temp\Snipe-IT\asset_management-master\Get-AssetInfo.ps1"
-$newScriptHash = (Get-FileHash -Path $newScriptPath).Hash
-if ($newScriptHash -eq $currentScriptHash) {
-    #Write to log file
-    $logtxt = ($timestamp + ":   New Script and Current script have the same hash ($currentScriptHash)")
-    if (!(Test-Path $logPath)) {
-        New-Item -path $logPath
-        Add-Content -path $logPath -value $logtxt
-    } 
-    else {
-        Add-Content -path $logPath -value $logtxt
-    }
-} else {
-    Remove-Item -Path $currentScriptPath
-    $snipeRootPath = "C:\ProgramData\Snipe-IT"
-    Move-Item -Path $newScriptPath -Destination $snipeRootPath
-    $logtxt = ($timestamp + ":   New Script and Current script have different hash. `r`n   Current script hash: $currentScriptHash`r`n   New script hash: $newScriptHash`r`n   New script has taken place of the old 'current' script.`r`n")
-    if (!(Test-Path $logPath)) {
-        New-Item -path $logPath
-        Add-Content -path $logPath -value $logtxt
-    } 
-    else {
-        Add-Content -path $logPath -value $logtxt
-    }
-}
-
+Move-Item -Path $newScriptPath -Destination $snipeRootPath
+$logtxt = ($timestamp + ":  Moved new script from $newScriptPath to $scriptPath")
+Add-Content -path $logPath -value $logtxt
