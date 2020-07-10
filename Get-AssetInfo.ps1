@@ -43,7 +43,7 @@ $customFields = @{
     "_snipeit_mac_address_9"            = "$MACAddress"
 }
 
-$modelID = (Get-Model -url $url -apikey $apikey | Where-Object {$_.name -like "*$modelno*"}).id #Get Snipe-IT Model ID based on model number pulled from machine
+$modelID = (Get-Model -url $url -apikey $apikey | Where-Object {($_.name -like "*$modelno*") -or ($_.model_number -like "*$modelno*")}).id #Get Snipe-IT Model ID based on model number pulled from machine
 
 $snipeAsset = Get-Asset -url $url -apikey $apikey -search $serialNumber #Search for asset in Snipe-IT based on S/N
 
