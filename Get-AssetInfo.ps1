@@ -24,10 +24,14 @@ $storageAmount = ([math]::Ceiling($storage / 1024 / 1024 / 1024)) #Round up to n
 
 if (($storageAmount -gt 200) -and ($storageAmount -lt 260) ) {
     $storageAmount = "256GB" #If total storage is between 200 and 260GB, set the amount to 256GB
-} elseif (($storageAmount -gt 100) -and ($storageAmount -lt 130)) {
-    $storageAmount = "128GB" #If total storage is between 100 and 130GB, set the amount to 128GB
-} elseif (($storageAmount -gt 470) -and ($storageAmount -lt 520)) {
-    $storageAmount = "512GB" #If total storage is between 470 and 520GB, set the amount to 512GB
+} elseif (($storageAmount -gt 90) -and ($storageAmount -lt 130)) {
+    $storageAmount = "128GB" #If total storage is between 90 and 130GB, set the amount to 128GB
+} elseif (($storageAmount -gt 460) -and ($storageAmount -lt 520)) {
+    $storageAmount = "512GB" #If total storage is between 460 and 520GB, set the amount to 512GB
+} elseif (($storageAmount -gt 850) -and ($storageAmount -lt 1030)) {
+    $storageAmount = "1TB" #If total storage is between 850 and 1030GB, set the amount to 1TB
+} else {
+    $storageAmount = $storageAmount.ToString() + "GB" #If storage amount does not fall between above ranges, add GB to the end of the real value
 }
 
 #Assign custom fields variables to values
