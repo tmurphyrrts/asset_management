@@ -10,6 +10,9 @@ if (Test-Path $tempFolderPath) {
     Remove-Item $tempFolderPath -Recurse
 }
 
+#Enforce TLS 1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 #Log Information
 $timestamp = Get-Date -UFormat "%m/%d/%Y %R"
 $logPath = "C:\ProgramData\Snipe-IT\ScriptUpdate.log"
