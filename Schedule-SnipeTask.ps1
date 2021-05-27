@@ -9,14 +9,14 @@ $rootFolder = $scheduleObject.GetFolder("\")
 $rootFolder.CreateFolder("Snipe-IT")
 
 #Trigger and Action for 'Update Asset' task
-$assetTrigger = New-ScheduledTaskTrigger -Daily -At 11am -RandomDelay 00:00:30
+$assetTrigger = New-ScheduledTaskTrigger -Daily -At 12pm -RandomDelay 00:04:00
 $assetAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File $assetScriptPath"
 
 #Register 'Update Asset' task
 Register-ScheduledTask -TaskName "Update Asset" -Description "Send new asset data to Snipe-IT" -Trigger $assetTrigger -Action $assetAction -User "System" -RunLevel Highest -TaskPath "\Snipe-IT" -Force
 
 #Trigger and Action for 'Check for Updates' task
-$updateTrigger = New-ScheduledTaskTrigger -Daily -At 10am -RandomDelay 00:00:30
+$updateTrigger = New-ScheduledTaskTrigger -Daily -At 12pm -RandomDelay 00:04:00
 $updateAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File $updateScriptPath"
 
 #Register 'Check for Updates' task
